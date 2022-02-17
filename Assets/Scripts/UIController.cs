@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject gamePanel;
     [SerializeField] private GameObject failPanel;
     [SerializeField] private GameObject winPanel;
+    [SerializeField] private GameObject menuScene;
 
     private GameObject _currentPanel;
 
@@ -15,6 +17,10 @@ public class UIController : MonoBehaviour
     {
         if (_currentPanel != null)
             _currentPanel.SetActive(false);
+        if(_currentPanel == menuPanel)
+        {
+            menuScene.SetActive(false);
+        }
     }
 
     public void ShowMenuPanel()
@@ -22,6 +28,7 @@ public class UIController : MonoBehaviour
         DisableCurrentPanel();
         _currentPanel = menuPanel;
         _currentPanel.SetActive(true);
+        menuScene.SetActive(true);
     }
     
     public void ShowGamePanel()

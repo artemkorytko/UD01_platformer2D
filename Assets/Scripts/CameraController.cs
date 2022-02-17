@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    [SerializeField] private Transform mainPosition;
     private Transform _target;
     private CinemachineVirtualCamera _camera;
     
@@ -14,6 +15,12 @@ public class CameraController : MonoBehaviour
         _target = target;
         _camera.Follow = _target;
         _camera.LookAt = _target;
+    }
+
+    public void Deactivate()
+    {
+        _camera.Follow = mainPosition;
+        _camera.LookAt = mainPosition;
     }
 
     private void Awake()

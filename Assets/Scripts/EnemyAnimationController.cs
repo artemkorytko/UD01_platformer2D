@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class EnemyAnimationController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private const string SPEED_KEY = "Speed";
+    
+    private static readonly int Speed = Animator.StringToHash(SPEED_KEY);
+    
+    private Animator _animator;
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        _animator = GetComponentInChildren<Animator>();
+    }
+    
+    public void SetSpeed(int value)
+    {
+        _animator.SetInteger(SPEED_KEY, value);
     }
 }

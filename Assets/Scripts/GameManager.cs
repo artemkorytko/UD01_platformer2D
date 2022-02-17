@@ -1,10 +1,10 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance;
+    
     private UIController _uiController;
     private SaveSystem _saveSystem;
     private LevelManager _levelManager;
@@ -18,6 +18,14 @@ public class GameManager : MonoBehaviour
     
     private void Awake()
     {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        
         _uiController = FindObjectOfType<UIController>();
         _saveSystem = GetComponent<SaveSystem>();
         _cameraController = FindObjectOfType<CameraController>();
@@ -34,7 +42,9 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         _uiController.ShowGamePanel();
-        _levelManager.InstantiateLevel(Level);
+        if(_levelManager.CurrentLevel == null)
+            _levelManager.InstantiateLevel(Level);
+        _levelManager.CurrentLevel.SetActive(true);    
         OnGameStarted();
     }
 
@@ -49,12 +59,20 @@ public class GameManager : MonoBehaviour
         _uiController.ShowWinPanel();
         OnGameEnded();
     }
+
+    public void ExitGame()
+    {
+        _uiController.ShowMenuPanel();
+        OnGameEnded();
+        _levelManager.DisableCurrentLevel();
+    }
     
     private void OnGameStarted()
     {
         _levelManager.Character.OnWin += WinGame;
         _levelManager.Character.OnFail += FailGame;
         _levelManager.Character.OnCoinsCollected += OnCoinsCollected;
+        _cameraController.Initialize(_levelManager.Character.transform);
     }
     
     private void OnGameEnded()
@@ -63,6 +81,7 @@ public class GameManager : MonoBehaviour
         _levelManager.Character.OnFail -= FailGame;
         _levelManager.Character.OnCoinsCollected -= OnCoinsCollected;
         _saveSystem.SaveData(_data);
+        _cameraController.Deactivate();
     }
 
     private void OnCoinsCollected()

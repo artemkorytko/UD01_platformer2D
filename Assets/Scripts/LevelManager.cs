@@ -11,16 +11,27 @@ public class LevelManager : MonoBehaviour
 
     public CharacterController Character => _character;
 
+    public GameObject CurrentLevel
+    {
+        get => _currentLevel;
+        set => _currentLevel = value;
+    }
+
     public void InstantiateLevel(int index)
     {
-        if (_currentLevel != null)
+        if (CurrentLevel != null)
         {
-            Destroy(_currentLevel);
+            Destroy(CurrentLevel);
         }
 
         index = index / levels.Length >= 1 ? index % levels.Length : index;
         _currentLevel = Instantiate(levels[index], transform);
         _character = GetComponentInChildren<CharacterController>();
         
+    }
+
+    public void DisableCurrentLevel()
+    {
+        CurrentLevel.SetActive(false);
     }
 }
