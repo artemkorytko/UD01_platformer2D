@@ -13,9 +13,10 @@ public class Damage : MonoBehaviour
       if (health != null)
       {
          SetDamage(health);
-         Debug.Log("Damage");
       }
    }
+
+  
 
    private void SetDamage(Health health)
    {

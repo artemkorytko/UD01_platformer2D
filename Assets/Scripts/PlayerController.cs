@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     public event Action OnWin;
     public event Action OnLost;
     public event Action OnCoinCollected;
-
+   
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
@@ -44,9 +44,6 @@ public class PlayerController : MonoBehaviour
         Movement();
         UpdateSide();
     }
-
-   
-
     private void Movement()
     {
         HorizontalMove();
@@ -82,6 +79,15 @@ public class PlayerController : MonoBehaviour
         {
             isCanJump = true;
         }
+        if (col.gameObject.CompareTag("Fell"))
+        {
+            OnDie();
+        }
+        if (col.gameObject.CompareTag("LethalZone"))
+        {
+            Debug.Log("LethalZone trigger");
+        }
+      
     }
     private void OnTriggerEnter2D(Collider2D col)
     {
@@ -94,14 +100,27 @@ public class PlayerController : MonoBehaviour
             coin.gameObject.SetActive(false);
             OnCoinCollected?.Invoke();
         }
-
+        var heart = col.gameObject.GetComponent<Heart>();
+        if (heart != null)
+        {
+            heart.gameObject.SetActive(false);
+            health.CurrentValue++;
+        }
+        
+        if (col.gameObject.CompareTag("LethalZone"))
+        {
+            var enemy = col.gameObject.GetComponentInParent<EnemyController>();
+            enemy.gameObject.SetActive(false);
+        }
+     
+        
         var finish = col.gameObject.GetComponent<Finish>();
         if (finish != null)
         {
             Deactivate();
             playerAnimationController.SetSpeed(0);
             OnWin?.Invoke();
-            Debug.Log("Finish");
+           
         }
     }
 

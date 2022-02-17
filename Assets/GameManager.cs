@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
    public int Coins => gameData.Coins;
    public int Level => gameData.Level;
    
+   
    public event Action<int> OnCoinsCountChanged = null; 
    private void Awake()
    {
@@ -37,7 +38,14 @@ public class GameManager : MonoBehaviour
       OnGameStarted();
    }
 
+   public void NextLevel()
+   {
+      uiController.ShowGameScreen();
+      levelManager.InstantiateLevel(Level);
+      OnGameStarted();
+   }
    
+  
    public void FallGame()
    {
       uiController.ShowFallScreen();
@@ -47,6 +55,7 @@ public class GameManager : MonoBehaviour
  
    public void WinGame()
    {
+      gameData.Level++;
       uiController.ShowWinScreen();
       OnGameEnded();
    }

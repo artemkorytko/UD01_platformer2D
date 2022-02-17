@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField] private float speed = 5f;
+    [SerializeField] private float speed = 1f;
     [SerializeField] private Transform firstPoint;
     [SerializeField] private Transform secondPoint;
 

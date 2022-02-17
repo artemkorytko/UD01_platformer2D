@@ -7,7 +7,7 @@ public class UIGameScreen : MonoBehaviour
 {
     private UICoinsText coinsText;
     private GameManager gameManager;
-
+   
     private void Awake()
     {
         coinsText = GetComponentInChildren<UICoinsText>();
