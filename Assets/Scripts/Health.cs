@@ -16,7 +16,6 @@ public class Health : MonoBehaviour
         set
         {
             _currentValue = Mathf.Clamp(value, 0, maxValue);
-            Debug.Log(_currentValue);
             if (_currentValue == 0)
             {
                 OnDie?.Invoke();

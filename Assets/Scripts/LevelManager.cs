@@ -8,6 +8,7 @@ public class LevelManager : MonoBehaviour
 
     private CharacterController _character;
     private GameObject _currentLevel;
+    private int _currentLevelIndex;
 
     public CharacterController Character => _character;
 
@@ -19,6 +20,7 @@ public class LevelManager : MonoBehaviour
 
     public void InstantiateLevel(int index)
     {
+        _currentLevelIndex = index;
         if (CurrentLevel != null)
         {
             Destroy(CurrentLevel);
@@ -28,6 +30,16 @@ public class LevelManager : MonoBehaviour
         _currentLevel = Instantiate(levels[index], transform);
         _character = GetComponentInChildren<CharacterController>();
         
+    }
+
+    public void ReloadLevel()
+    {
+        InstantiateLevel(_currentLevelIndex);
+    }
+
+    public void NextLevel()
+    {
+        InstantiateLevel(_currentLevelIndex + 1);
     }
 
     public void DisableCurrentLevel()
